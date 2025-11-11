@@ -1,53 +1,75 @@
 import torch
 import connectionhelper
 
-def removeIllegalTest():
-	connections = torch.tensor(
-		[(0, 1), (0, 2), (0, 3), (0, 4)]
-	)
-	gates = torch.tensor([
-		[
-			[1, 2, 3],
-			[2, 3, 0],
-			[3, 5, 0],
-			[-3, 8, -3],
-			[-1, 0, 2]
-		],
-		[
-			[1, 0, 3],
-			[2, 3, 0],
-			[3, -3, -1],
-			[-3, 8, -3],
-			[-1, 0, 1]
-		]
-	])
+def getTestGates(set=0):
+	gateSets = [
+		torch.tensor([
+			[
+				[1, 2, 3],
+				[2, 3, 0],
+				[3, 5, 0],
+				[-3, 8, -3],
+				[-1, 0, 2]
+			],
+			[
+				[1, 0, 3],
+				[2, 3, 0],
+				[3, -3, -1],
+				[-3, 8, -3],
+				[-1, 0, 1]
+			]
+		])
+	]
 
-	r = connectionhelper.removeIllegal(gates, connections)
+	return gateSets[set]
+
+def getTestConnections(set=0):
+	connectionSets =[
+		torch.tensor([(0, 1), (0, 2), (0, 3), (0, 4)]),
+		torch.tensor([(0,1), (0,2), (0,3), (0,4), (1, 2)])
+	]
+
+	return connectionSets[set]
+
+
+def removeIllegalTest():
+	connections = getTestConnections()
+	gates = getTestGates()
+
+	r = connectionhelper.findIllegal(gates, connections)
 
 	print(gates)
 	print(r)
 
 def existingPairsTest():
-	gates = torch.tensor([
-		[
-			[1, 2, 3],
-			[2, 3, 0],
-			[3, 5, 0],
-			[-3, 8, -3],
-			[-1, 0, 2]
-		],
-		[
-			[1, 0, 3],
-			[2, 3, 0],
-			[3, -3, -1],
-			[-3, 8, -3],
-			[-1, 0, 1]
-		]
-	])
+	gates = getTestGates()
 	conPairs = connectionhelper.findExistingConnectionPairs(gates)
 	print(conPairs)
 
+def findConnectionsTest():
+	gates = getTestGates()
+
+	cm = connectionhelper.findConnections(gates)
+	print(cm.shape)
+	print(cm)
+
+def makeQubitToConnectionsTest():
+	cons = getTestConnections(1)
+	consMap = connectionhelper.makeQubitToConnectionsList(cons)
+	print(consMap)
+
+def possibleConnectionsTest():
+	cons = getTestConnections(1)
+	consList = connectionhelper.makeQubitToConnectionsList(cons)
+
+
+	possible = connectionhelper.findConnectableQubits(consList, 2)
+
+	print(possible)
+
 if __name__ == "__main__":
-	existingPairsTest()
-	#transposeTest()
+	#existingPairsTest()
 	#removeIllegalTest()
+	possibleConnectionsTest()
+	#makeQubitToConnectionsTest()
+	#findConnectionsTest()
