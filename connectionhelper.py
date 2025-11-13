@@ -91,7 +91,11 @@ def findConnectableQubits(connections, needed):
 	return possibleQubits
 
 		
-		
-		
+def getLegalAndIllegalCircuitIndices(circuits, possibleConnections):
+	column_has_illegal = findIllegal(circuits, possibleConnections)
+	column_has_illegal.shape
+	circuit_has_illegal = column_has_illegal.any(dim=1)
+	good = (circuit_has_illegal == 0).nonzero()
+	bad = circuit_has_illegal.nonzero()
 
-
+	return good, bad
