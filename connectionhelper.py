@@ -98,4 +98,4 @@ def getLegalAndIllegalCircuitIndices(circuits, possibleConnections):
 	good = (circuit_has_illegal == 0).nonzero()
 	bad = circuit_has_illegal.nonzero()
 
-	return good, bad
+	return good.squeeze(dim=1), bad.squeeze(dim=1)

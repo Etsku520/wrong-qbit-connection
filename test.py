@@ -116,6 +116,16 @@ def connectableComplicateTest():
 
 	print(possible)
 
+def findIllegalShapeTest():
+	gates = getTestGates(1)
+	cons = getTestConnections(2)
+
+	good, bad = connectionhelper.getLegalAndIllegalCircuitIndices(gates, cons)
+
+	print(good.shape)
+	print(good)
+	print(bad.shape)
+
 if __name__ == "__main__":
 	#existingPairsTest()
 	#removeIllegalTest()
@@ -123,4 +133,5 @@ if __name__ == "__main__":
 	#makeQubitToConnectionsTest()
 	#findConnectionsTest()
 	#getLegalAndIllegalIndicesTest()
-	connectableComplicateTest()
+	#connectableComplicateTest()
+	findIllegalShapeTest()
